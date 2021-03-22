@@ -1,25 +1,28 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.Extensions.Logging;
+using Microsoft.EntityFrameworkCore;
+using razor_pg_ex.Models;
 
 namespace razor_pg_ex.Pages
 {
     public class IndexModel : PageModel
     {
-        private readonly ILogger<IndexModel> _logger;
+        private readonly StoreGameContext _context;
 
-        public IndexModel(ILogger<IndexModel> logger)
+        public IndexModel(StoreGameContext context)
         {
-            _logger = logger;
+            _context = context;
         }
 
-        public void OnGet()
-        {
+        public IList<Game> Game { get;set; }
 
+        public async Task OnGetAsync()
+        {
+            Game = await _context.Game.ToListAsync();
         }
     }
 }
